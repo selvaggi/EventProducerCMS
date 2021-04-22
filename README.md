@@ -9,7 +9,7 @@ cd EventProducerCMS
 Create proxy (need to query DBS for MinBias pile for pile-up mixing):
 
 ```
-'voms-proxy-init --rfc --voms cms'
+source init.sh
 ```
 
 Submit jobs, e.g 100k UL18 events splitted in 1k jobs on the testmatch (2days) queue, 100 events/job, using 2cpus per jobs):
