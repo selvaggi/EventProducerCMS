@@ -17,3 +17,5 @@ Submit jobs, e.g 100k UL18 events splitted in 1k jobs on the testmatch (2days) q
 ```
 python submitCondorProduction.py --fragment fragments/cH_HToGammaGamma_NLO_MG5aMCatNLO_13TeV_cff.py --outdir /eos/cms/store/cmst3/user/selvaggi/samples/ --procname cH_HToGammaGamma_NLO_MG5aMCatNLO_13TeV --era UL18 --njobs 1000 --nev 100 --queue testmatch --cpu 2
 ```
+
+Add the ```--dry``` option to simply create condor submit file without executing it.

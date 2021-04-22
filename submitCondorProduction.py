@@ -19,6 +19,8 @@ def main():
                       dest='queue', default='tomorrow')
 
     parser.add_argument ('--cpu', help='number of CPUs (1 cpu = 2 gb RAM)', default='2')
+    parser.add_argument('--dry', help='', dest="dry", default=False, action='store_true')
+
 
     args = parser.parse_args()
 
@@ -33,15 +35,15 @@ def main():
         print 'provide UL16/UL17/UL18 era option. '
         sys.exit()
 
-    script = 'bin/generate.sh'
+    script = 'generate.sh'
     jobsdir = './BatchOutput/' + args.procname
 
     if not os.path.exists(jobsdir):
        os.makedirs(jobsdir)
-       os.makedirs(jobsdir+'/std/')
-       os.makedirs(jobsdir+'/cfg/')
+       os.makedirs(jobsdir+'/stderr/')
+       os.makedirs(jobsdir+'/stdout/')
+       os.makedirs(jobsdir+'/log/')
 
-    print '[Submitting jobs]'
     jobCount=0
 
     queuestr = '"{}"'.format(queue)
@@ -50,14 +52,14 @@ def main():
 executable    = {}
 
 # here you specify where to put .log, .out and .err files
-output                = configs/std/condor.$(ClusterId).$(ProcId).out
-error                 = configs/std/condor.$(ClusterId).$(ProcId).err
-log                   = configs/std/condor.$(ClusterId).log
+output                = {}/stderr/condor.$(ClusterId).$(ProcId).out
+error                 = {}/stdout/condor.$(ClusterId).$(ProcId).err
+log                   = {}/log/condor.$(ClusterId).log
 
 +AccountingGroup = "group_u_CMST3.all"
-+MaxRunTime = {}
++JobFlavour = {}
 RequestCpus = {}
-""".format(script,queuestr,cpu)
+""".format(script,jobsdir,jobsdir,jobsdir,queuestr,cpu)
     
     for job in xrange(args.njobs):
 
@@ -70,9 +72,18 @@ RequestCpus = {}
     with open(condor_filename, "w") as f:
         f.write(cmdfile)
 
+    print ''
+    print 'submit condor command:'
+    print ''
+    print 'condor_submit {}'.format(condor_filename)
+    print ''
+    
     # submitting jobs
-    #os.system('condor_submit {}'.format(condor_filename))
-       
+    if not args.dry: 
+
+        print 'Submitting jobs ...'
+        os.system('condor_submit {}'.format(condor_filename))
+        print 'done. '
 
 #_______________________________________________________________________________________
 if __name__ == "__main__":
