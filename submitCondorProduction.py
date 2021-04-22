@@ -67,8 +67,8 @@ x509userproxy = {}
 executable    = {}
 
 # here you specify where to put .log, .out and .err files
-output                = {}/stderr/condor.$(ClusterId).$(ProcId).out
-error                 = {}/stdout/condor.$(ClusterId).$(ProcId).err
+output                = {}/stderr/condor.$(ClusterId).$(ProcId).err
+error                 = {}/stdout/condor.$(ClusterId).$(ProcId).out
 log                   = {}/log/condor.$(ClusterId).log
 
 +AccountingGroup = "group_u_CMST3.all"
@@ -78,7 +78,7 @@ RequestCpus = {}
     
     for job in xrange(args.njobs):
 
-       seed=str(job)
+       seed=str(job)+1
 
        cmdfile += 'arguments="{} {} {} {} {} {} {}"\n'.format(era, str(args.nev), seed, fragment, outdir, procname, cpu)
        cmdfile += 'queue\n'
