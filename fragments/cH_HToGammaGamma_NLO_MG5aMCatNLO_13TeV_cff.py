@@ -4,7 +4,7 @@ import FWCore.ParameterSet.Config as cms
 # https://github.com/cms-sw/genproductions/tree/22d41417a3f67c8065e7bb50997b39223d8f1223/bin/MadGraph5_aMCatNLO/cards/production/2017/13TeV/ChargedHiggs_hw
 
 externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
-    args = cms.vstring('/eos/cms/store/cmst3/user/selvaggi/GridPacks/hc_5f_NLO_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz'),
+    args = cms.vstring('/eos/cms/store/cmst3/group/vhcc/hc/gridpacks/hc_5f_NLO_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz'),
     nEvents = cms.untracked.uint32(5000),
     numberOfParameters = cms.uint32(1),
     outputFile = cms.string('cmsgrid_final.lhe'),
