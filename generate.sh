@@ -203,8 +203,11 @@ echo "copying into ${OUTPROCDIR} ... "
 mkdir -p $OUTPUTDIR_MINIAOD 
 mkdir -p $OUTPUTDIR_NANOAOD
 
-xrdcp -N -v step_MINIAOD.root root://eoscms.cern.ch/${OUTPUTFILE_MINIAOD}
-xrdcp -N -v step_NANOAOD.root root://eoscms.cern.ch/${OUTPUTFILE_NANOAOD}
+echo ${OUTFILE_MINIAOD}
+echo ${OUTFILE_NANOAOD}
+
+xrdcp -N -v step_MINIAOD.root root://eoscms.cern.ch/${OUTFILE_MINIAOD}
+xrdcp -N -v step_NANOAOD.root root://eoscms.cern.ch/${OUTFILE_NANOAOD}
 
 echo "job done." 
 
