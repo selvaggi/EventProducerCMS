@@ -10,7 +10,7 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument ('--fragment', help='MC fragment',  default='fragments/cH_HToGammaGamma_NLO_MG5aMCatNLO_13TeV_cff.py')
-    parser.add_argument ('--outdir', help='output directory e.g. ', default='/eos/cms/store/cmst3/user/selvaggi/samples/')
+    parser.add_argument ('--outdir', help='output directory e.g. ', default='/eos/cms/store/cmst3/group/vhcc/hc/samples/')
     parser.add_argument ('--procname', help='process name', default='cH_HToGammaGamma_NLO_MG5aMCatNLO_13TeV')
     parser.add_argument ('--era', help='UL16/UL17/UL18', default='UL18')
     parser.add_argument ('--njobs', help='number of jobs ', type=int, default=10)
