@@ -33,13 +33,8 @@ python submitCondorProduction.py --fragment fragments/cH_HToGammaGamma_NLO_MG5aM
   --njobs 10 \
   --nev 10 \
   --queue testmatch \
-  --cpu 2
+  --cpu 2 \
   --dry
-```
-
-
-```bash
-python submitCondorProduction.py --fragment fragments/cH_HToGammaGamma_NLO_MG5aMCatNLO_13TeV_cff.py --outdir /eos/cms/store/cmst3/user/selvaggi/samples/ --procname cH_HToGammaGamma_NLO_MG5aMCatNLO_13TeV --era UL18 --njobs 10 --nev 10 --queue testmatch --cpu 2 --dry
 ```
 
 Add the ```--dry``` option to simply create condor submit file without executing it.
