@@ -1,21 +1,45 @@
-Clone:
+Clone repository:
 
 
-```
+```bash
 git clone git@github.com:selvaggi/EventProducerCMS.git
 cd EventProducerCMS
 ```
 
 Create proxy (need to query DBS for MinBias pile for pile-up mixing):
 
-```
+```bash
 source init.sh
 ```
 
-Submit jobs, e.g 100k UL18 events splitted in 1k jobs on the testmatch (2days) queue, 100 events/job, using 2cpus per jobs):
+
+The script options are:
 
 ```
-python submitCondorProduction.py --fragment fragments/cH_HToGammaGamma_NLO_MG5aMCatNLO_13TeV_cff.py --outdir /eos/cms/store/cmst3/user/selvaggi/samples/ --procname cH_HToGammaGamma_NLO_MG5aMCatNLO_13TeV --era UL18 --njobs 1000 --nev 100 --queue testmatch --cpu 2
+submitCondorProduction.py [-h] [--fragment FRAGMENT] [--outdir OUTDIR]
+                                 [--procname PROCNAME] [--era ERA]
+                                 [--njobs NJOBS] [--nev NEV] [--queue QUEUE]
+                                 [--cpu CPU] [--dry]
+```
+
+
+For example, submit 1k UL18 events splitted in 10 jobs on the testmatch (2days) queue, 10 events/job, using 2cpus per jobs):
+
+```bash
+python submitCondorProduction.py --fragment fragments/cH_HToGammaGamma_NLO_MG5aMCatNLO_13TeV_cff.py \
+  --outdir /eos/cms/store/cmst3/user/selvaggi/samples/ \
+  --procname cH_HToGammaGamma_NLO_MG5aMCatNLO_13TeV \
+  --era UL18 \
+  --njobs 10 \
+  --nev 10 \
+  --queue testmatch \
+  --cpu 2
+  --dry
+```
+
+
+```bash
+python submitCondorProduction.py --fragment fragments/cH_HToGammaGamma_NLO_MG5aMCatNLO_13TeV_cff.py --outdir /eos/cms/store/cmst3/user/selvaggi/samples/ --procname cH_HToGammaGamma_NLO_MG5aMCatNLO_13TeV --era UL18 --njobs 10 --nev 10 --queue testmatch --cpu 2 --dry
 ```
 
 Add the ```--dry``` option to simply create condor submit file without executing it.
