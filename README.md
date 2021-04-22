@@ -1,3 +1,8 @@
+# EventProducer
+
+This repository contains a condor script that will generate and produce MINIAOD and NANOAOD samples withb setup corresponding to the UL16/UL17 and UL18 campaigns. 
+The only required inputs are a generator fragment (a possibly a gridpack). 
+
 Clone repository:
 
 
@@ -6,7 +11,10 @@ git clone git@github.com:selvaggi/EventProducerCMS.git
 cd EventProducerCMS
 ```
 
-Create proxy (need to query DBS for MinBias pile for pile-up mixing):
+Create a gen fragment (see in ```fragments``` directory for examples).
+
+
+Create a proxy (need to query DBS for MinBias pile for pile-up mixing):
 
 ```bash
 source init.sh
