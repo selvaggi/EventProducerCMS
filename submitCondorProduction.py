@@ -31,9 +31,21 @@ def main():
     queue         = args.queue
     cpu           = args.cpu
 
-    if era != 'UL16' and  era != 'UL17' and era != 'UL18':
-        print 'provide UL16/UL17/UL18 era option. '
+    #if era != 'UL16' and era != 'UL17' and era != 'UL18':
+    if era != 'UL16' and era != 'UL17' and era != 'UL18':
+        #print 'provide UL16/UL17/UL18 era option. '
+        print 'provide UL18 era option. '
         sys.exit()
+
+    ## setting up proxy
+    print 'Getting proxy ... '
+    proxyPath=os.popen('voms-proxy-info -path')
+    proxyPath=proxyPath.readline().strip()
+    print 'ProxyPath:',proxyPath
+    if 'tmp' in proxyPath: 
+        print 'Run source environment.(c)sh and make a new proxy!'
+        exit(1)
+
 
     script = 'generate.sh'
     jobsdir = './BatchOutput/' + args.procname
@@ -49,6 +61,9 @@ def main():
     queuestr = '"{}"'.format(queue)
 
     cmdfile="""# here goes your shell script
+use_x509userproxy = true
+x509userproxy = {}
+
 executable    = {}
 
 # here you specify where to put .log, .out and .err files
@@ -59,7 +74,7 @@ log                   = {}/log/condor.$(ClusterId).log
 +AccountingGroup = "group_u_CMST3.all"
 +JobFlavour = {}
 RequestCpus = {}
-""".format(script,jobsdir,jobsdir,jobsdir,queuestr,cpu)
+""".format(proxyPath,script,jobsdir,jobsdir,jobsdir,queuestr,cpu)
     
     for job in xrange(args.njobs):
 
