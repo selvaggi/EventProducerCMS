@@ -22,13 +22,13 @@ source init.sh
 
 
 
-Create DIGI configurations:
+Create DIGI configurations (do only once):
 
 ```bash
 python createDIGIconfig.py
 ```
 
-The script options are:
+The condor script options for generating events are:
 
 ```
 submitCondorProduction.py [-h] [--fragment FRAGMENT] [--outdir OUTDIR]

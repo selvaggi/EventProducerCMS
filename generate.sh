@@ -19,6 +19,9 @@ FRAGMENT=${4}
 OUTDIR=${5}
 JOBNAME=${6}
 NCPUS=${7}
+HOMEDIR=${8}
+PROXY=${9}
+CFGDIGI=${10}
 
 
 ## the CMSSW releases depend on the era
@@ -26,7 +29,18 @@ CMSREL="CMSSW_10_6_4_patch1"
 CMSREL_HLT="CMSSW_10_2_16_UL"
 CMSREL_NANO="CMSSW_10_6_19_patch2"
 
+### need to this to query das from condor job
+echo "--------------------------------------------------------------------"
+echo " CHECKING PROXY "
+echo "-------------------------------------------------------------"
+echo ""
+echo ""
 
+HOME=${HOMEDIR}
+export X509_USER_PROXY=${PROXY}
+
+voms-proxy-info -all
+voms-proxy-info -all -file ${PROXY}
 
 
 JOBID=${SEED}
@@ -40,20 +54,22 @@ OUTPUTDIR_NANOAOD=${OUTPROCDIR}/NANOAOD/
 OUTFILE_MINIAOD=$OUTPUTDIR_MINIAOD/miniaod_${JOBID}.root
 OUTFILE_NANOAOD=$OUTPUTDIR_NANOAOD/nanoaod_${JOBID}.root
 
-#JOBNAME="${f%.*}"
+JOBNAME="${f%.*}"
 
-
+echo ""
+echo ""
 echo "--------------------------------------------------------------------"
-echo "CMSREL: " $CMSREL
-echo "CMSREL_HLT: " $CMSREL_HLT
-echo "CMSREL_NANO: " $CMSREL_NANO
-echo "ERA: "$ERA
-echo "JOBID: "$JOBID
-echo "OUTPROCDIR: " $OUTPROCDIR
-echo "FRAGMENT: " $FRAGMENT
-echo "CFG: " $CFG
-echo "SEED: " $SEED
-echo "EVENTS: " $EVENTS
+echo "HOME          : " $HOME
+echo "CMSREL        : " $CMSREL
+echo "CMSREL_HLT    : " $CMSREL_HLT
+echo "CMSREL_NANO   : " $CMSREL_NANO
+echo "ERA           : " $ERA
+echo "JOBID         : " $JOBID
+echo "OUTPROCDIR    : " $OUTPROCDIR
+echo "FRAGMENT      : " $FRAGMENT
+echo "CFG           : " $CFG
+echo "SEED          : " $SEED
+echo "EVENTS        : " $EVENTS
 echo "--------------------------------------------------------------------"
 
 echo ""
@@ -63,7 +79,6 @@ echo " RUNNING GEN STEP "
 echo "-------------------------------------------------------------"
 echo ""
 echo ""
-
 
 
 mkdir -p ${JOBDIR}
@@ -109,8 +124,10 @@ echo ""
 echo ""
 
 
-cmsDriver.py step1 --eventcontent PREMIXRAW --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM-DIGI --fileout file:step_DIGI.root --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL18_106X_upgrade2018_realistic_v11_L1v1-v2/PREMIX" --conditions 106X_upgrade2018_realistic_v11_L1v1 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --geometry DB:Extended --filein file:step_SIM.root --datamix PreMix --era Run2_2018 --runUnscheduled --mc -n $EVENTS  --nThreads ${NCPUS}
+#cmsDriver.py step1 --eventcontent PREMIXRAW --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM-DIGI --fileout file:step_DIGI.root --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL18_106X_upgrade2018_realistic_v11_L1v1-v2/PREMIX" --conditions 106X_upgrade2018_realistic_v11_L1v1 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --geometry DB:Extended --filein file:step_SIM.root --datamix PreMix --era Run2_2018 --runUnscheduled --mc -n $EVENTS  --nThreads ${NCPUS}
 
+cp ${CFGDIGI} .
+cmsRun ${CFGDIGI}
 
 ## step HLT   
 

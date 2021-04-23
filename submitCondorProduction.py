@@ -43,44 +43,59 @@ def main():
     proxyPath=proxyPath.readline().strip()
     print 'ProxyPath:',proxyPath
     if 'tmp' in proxyPath: 
-        print 'Run source environment.(c)sh and make a new proxy!'
+        print 'Run "source init.sh" first!'
         exit(1)
 
 
+    homedir=os.path.expanduser('~')
     script = 'generate.sh'
-    jobsdir = './BatchOutput/' + args.procname
+    jobsdir = './logs/' + args.procname
+
+    print ''
+    print 'logs will be stored in:', jobsdir
+    print ''
+
+    if os.path.exists(jobsdir): 
+        print 'directory:', jobsdir, 'exists ...'
+        print 'Choose a different job name and re-submit.' 
+        exit(1)
 
     if not os.path.exists(jobsdir):
        os.makedirs(jobsdir)
-       os.makedirs(jobsdir+'/stderr/')
-       os.makedirs(jobsdir+'/stdout/')
+       os.makedirs(jobsdir+'/std/')
        os.makedirs(jobsdir+'/log/')
 
-    jobCount=0
+    cfg_digi='templates/config_DIGI_{}.py'.format(era)
+    if not os.path.exists(cfg_digi):
+        print '{} does not exist. Please run "python createDIGIconfig.py" first.'.format(cfg_digi)
+        exit(1)
 
+    jobCount=0
     queuestr = '"{}"'.format(queue)
 
     cmdfile="""# here goes your shell script
-use_x509userproxy = true
-x509userproxy = {}
+#use_x509userproxy = true
+#x509userproxy = 
+#Proxy_path = 
 
+universe = vanilla
 executable    = {}
 
 # here you specify where to put .log, .out and .err files
-output                = {}/stderr/condor.$(ClusterId).$(ProcId).err
-error                 = {}/stdout/condor.$(ClusterId).$(ProcId).out
-log                   = {}/log/condor.$(ClusterId).log
+error                = {}/std/condor.$(ClusterId).$(ProcId).err
+output               = {}/std/condor.$(ClusterId).$(ProcId).out
+log                  = {}/log/condor.$(ClusterId).log
 
 +AccountingGroup = "group_u_CMST3.all"
 +JobFlavour = {}
 RequestCpus = {}
-""".format(proxyPath,script,jobsdir,jobsdir,jobsdir,queuestr,cpu)
+""".format(script,jobsdir,jobsdir,jobsdir,queuestr,cpu)
     
     for job in xrange(args.njobs):
 
-       seed=str(job)+1
+       seed=str(job+1)
 
-       cmdfile += 'arguments="{} {} {} {} {} {} {}"\n'.format(era, str(args.nev), seed, fragment, outdir, procname, cpu)
+       cmdfile += 'arguments="{} {} {} {} {} {} {} {} {} {}"\n'.format(era, str(args.nev), seed, fragment, outdir, procname, cpu, homedir, proxyPath, os.path.abspath(cfg_digi))
        cmdfile += 'queue\n'
 
     condor_filename='condor_{}_{}.sub'.format(procname,era)
