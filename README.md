@@ -21,6 +21,13 @@ source init.sh
 ```
 
 
+
+Create DIGI configurations:
+
+```bash
+python createDIGIconfig.py
+```
+
 The script options are:
 
 ```
