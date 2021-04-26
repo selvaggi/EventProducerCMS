@@ -5,6 +5,20 @@ import commands
 import time
 import random
 
+#__________________________________________________________
+def getRandomSeed():
+
+    seed = '%i%i%i%i%i%i%i%i%i'%(random.randint(1,9),
+                                 random.randint(0,9),
+                                 random.randint(0,9),
+                                 random.randint(0,9),
+                                 random.randint(0,9),
+                                 random.randint(0,9),
+                                 random.randint(0,9),
+                                 random.randint(0,9),
+                                 random.randint(0,9))
+    return seed
+
 #_____________________________________________________________________________________________________________
 def main():
     parser = argparse.ArgumentParser()
@@ -55,10 +69,12 @@ def main():
     print 'logs will be stored in:', jobsdir
     print ''
 
+    '''
     if os.path.exists(jobsdir): 
         print 'directory:', jobsdir, 'exists ...'
         print 'Choose a different job name and re-submit.' 
         exit(1)
+    '''
 
     if not os.path.exists(jobsdir):
        os.makedirs(jobsdir)
@@ -93,7 +109,8 @@ RequestCpus = {}
     
     for job in xrange(args.njobs):
 
-       seed=str(job+1)
+       #seed=str(job+1)
+       seed=getRandomSeed()
 
        cmdfile += 'arguments="{} {} {} {} {} {} {} {} {} {}"\n'.format(era, str(args.nev), seed, fragment, outdir, procname, cpu, homedir, proxyPath, os.path.abspath(cfg_digi))
        cmdfile += 'queue\n'
