@@ -17,6 +17,7 @@ Create a gen fragment (see in ```fragments``` directory for examples).
 Create a proxy (need to query DBS for MinBias pile for pile-up mixing):
 
 ```bash
+voms-proxy-init --rfc --voms cms
 source init.sh
 ```
 
