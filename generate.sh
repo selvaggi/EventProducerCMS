@@ -203,6 +203,7 @@ scram b -j 8
 cp ../../${CMSREL}/src/step_MINIAOD.root .
 
 
+export DISPLAY=localhost.0.0
 cmsDriver.py step1 --eventcontent NANOEDMAODSIM --customise Configuration/DataProcessing/Utils.addMonitoring --datatier NANOAODSIM --fileout file:step_NANOAOD.root --conditions 106X_upgrade2018_realistic_v15_L1v1 --step NANO --filein file:step_MINIAOD.root --era Run2_2018,run2_nanoAOD_106Xv1 --mc -n $EVENTS  --nThreads ${NCPUS}
 
 
